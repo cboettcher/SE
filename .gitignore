@@ -2,6 +2,8 @@
 *.class
 *.jar
 
+.ant-targets-build.xml
+
 
 #excluded folders
 build/
