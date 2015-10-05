@@ -1,7 +1,7 @@
 #excluded files
 *.class
 *.jar
-*.tar.gz2
+*.tar.bz2
 
 .ant-targets-build.xml
 
