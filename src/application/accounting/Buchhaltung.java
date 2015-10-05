@@ -6,7 +6,7 @@ import java.util.ArrayList;
 import java.util.Scanner;
 
 public class Buchhaltung {
-	public static void main(String args[]) {
+	public static void call_main(String args[]) {
 		if (args.length != 2) {
 			System.err.println("Wrong argument number!");
 			System.exit(1);

@@ -22,14 +22,14 @@
   </target>
   
   <target name="execute" depends="compile">
-    <java classpath="build/classes" classname="application.accounting.Buchhaltung">
+    <java classpath="build/classes" classname="application.accounting.Main">
       <arg file="src/data/data1.csv"/>
       <arg value="0.05" />
     </java>
   </target>
   
   <target name ="execute-jar" depends="archive">
-    <java classpath="dist/accounting.jar" classname="application.accounting.Buchhaltung">
+    <java classpath="dist/accounting.jar" classname="application.accounting.Main">
       <arg file="src/data/data1.csv"/>
       <arg value="0.05" />
     </java>
