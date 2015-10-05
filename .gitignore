@@ -1,0 +1,7 @@
+#excluded files
+*.class
+*.jar
+
+
+#excluded folders
+build/
