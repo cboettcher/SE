@@ -1,10 +1,15 @@
-#excluded files
+#excluded files (wildcards)
 *.class
 *.jar
 *.tar.bz2
 
+#excluded files (specified)
 .ant-targets-build.xml
+.project
+.classpath
 
 
 #excluded folders
 build/
+/bin/
+.settings/
