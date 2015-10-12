@@ -1,3 +1,4 @@
+// Parses arguments from an array provided at object-initialisation
 public class ArgParser {
 
     private String[] args = null;
