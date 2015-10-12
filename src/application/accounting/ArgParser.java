@@ -16,6 +16,19 @@ public class ArgParser {
     } // end of special constructor "ArgParser(String[])"
 
 
+    /**
+      Parses commandline arguments and stores relevant infomation in local variables.\n
+      Offered Information:\n
+	-h | --help\n
+	-v | --version\n
+	-i | --input-file <filename>\n
+	-o | --output-file <filename>\n
+	-l | --log-file <filename>\n
+	
+	
+    
+    
+    */
     private void parseArgs() {
 
         StringBuffer sb = null;
