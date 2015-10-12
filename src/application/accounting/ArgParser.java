@@ -94,6 +94,11 @@ public class ArgParser {
     } // end of method "parseArgs()"
 
 
+    /**
+	returns some Information about all parsed arguments, including disallowed arguments
+
+
+    */
     @Override
     public String toString() {
 
