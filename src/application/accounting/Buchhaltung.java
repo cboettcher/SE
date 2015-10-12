@@ -2,45 +2,45 @@ package application.accounting;
 
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Scanner;
+import java.io.FileWriter;
 
 public class Buchhaltung {
-	public static void call_main(String args[]) {
+
+	private static FileWriter outwriter = null;
+
+	public static void call_main(String args[]) throws IOException {
 		String filestr = "";
 		double p = 0.0; //zins
 		File inFile = null;
-	
-		if (args.length != 2) {
-			System.err.println("Wrong argument number! " + args.length);
+		String outfileStr = "";
+		File outFile = null;
+		if (args.length == 0) {
 			Scanner sc = new Scanner(System.in);
 			System.out.print("Reading Filename from stdin: ");
 			filestr = sc.next();
 			System.out.print("Reading interest from stdin: ");
 			p = sc.nextDouble();
+			System.out.print("Reading outFile from stdin: ");
+			outfileStr = sc.next();
 			
 			sc.close();
 			
 		}
 		else {
-			filestr = args[0];
-		
-			try {
-				inFile = new File(filestr);
-				if (!inFile.exists()) {
-					throw new FileNotFoundException();
-				}
-			} catch (NullPointerException | FileNotFoundException e) {
-				System.err.println("File " + filestr + " does not exist.");
-				System.exit(1);
+			ArgParser argP = new ArgParser(args);
+ 			
+ 			filestr = argP.getInputFilename();
+ 			outfileStr = argP.getOutputFilename();
+ 			String rest = argP.getNonOptions();
+ 			try {
+				p = Double.parseDouble(rest);
+			} catch(NumberFormatException e) {
+				System.err.println(rest + " is no number!");
 			}
-
-			p = 0.0; // Zinssatz
-			try {
-				p = Double.parseDouble(args[1]);
-			} catch (NumberFormatException e) {
-				System.err.println(args[1] + " is not a number");
-			}
+ 			
 		}
 		try {
 			inFile = new File(filestr);
@@ -51,6 +51,15 @@ public class Buchhaltung {
 			System.err.println("File " + filestr + " does not exist.");
 			System.exit(1);
 		}
+		
+		try {
+			outFile = new File(outfileStr);
+		} catch (NullPointerException e) {
+			System.err.println("File " + filestr + " not readable.");
+			System.exit(1);
+		}
+		
+		outwriter = new FileWriter(outFile);
 			
 		Scanner sc = null;
 		try {
@@ -114,10 +123,14 @@ public class Buchhaltung {
 			}
 		}
 		
-		System.out.println(header);
+		outwriter.write(header + "");
 		sc.close();
+		
 		writeNewyear(sparer);
-
+		
+		
+		outwriter.close();
+		
 	}
 
 	public static int getIntValue(String number) {
@@ -133,11 +146,12 @@ public class Buchhaltung {
 
 	}
 
-	public static void writeNewyear(ArrayList<Sparer> sparer) {
+	public static void writeNewyear(ArrayList<Sparer> sparer) throws IOException{
 		for (int i = 0; i < sparer.size(); i++) {
 			sparer.get(i).calcNewYear();
-			System.out.println(sparer.get(i));
+			outwriter.write(sparer.get(i) + "");
+			outwriter.write("\n");
 		}
-		System.out.println();
+		outwriter.write("\n");
 	}
 }
