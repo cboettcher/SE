@@ -7,30 +7,51 @@ import java.util.Scanner;
 
 public class Buchhaltung {
 	public static void call_main(String args[]) {
-		if (args.length != 2) {
-			System.err.println("Wrong argument number!");
-			System.exit(1);
-		}
-
+		String filestr = "";
+		double p = 0.0; //zins
 		File inFile = null;
-		;
+	
+		if (args.length != 2) {
+			System.err.println("Wrong argument number! " + args.length);
+			Scanner sc = new Scanner(System.in);
+			System.out.print("Reading Filename from stdin: ");
+			filestr = sc.next();
+			System.out.print("Reading interest from stdin: ");
+			p = sc.nextDouble();
+			
+			sc.close();
+			
+		}
+		else {
+			filestr = args[0];
+		
+			try {
+				inFile = new File(filestr);
+				if (!inFile.exists()) {
+					throw new FileNotFoundException();
+				}
+			} catch (NullPointerException | FileNotFoundException e) {
+				System.err.println("File " + filestr + " does not exist.");
+				System.exit(1);
+			}
+
+			p = 0.0; // Zinssatz
+			try {
+				p = Double.parseDouble(args[1]);
+			} catch (NumberFormatException e) {
+				System.err.println(args[1] + " is not a number");
+			}
+		}
 		try {
-			inFile = new File(args[0]);
+			inFile = new File(filestr);
 			if (!inFile.exists()) {
 				throw new FileNotFoundException();
 			}
 		} catch (NullPointerException | FileNotFoundException e) {
-			System.err.println("File " + args[0] + " does not exist.");
+			System.err.println("File " + filestr + " does not exist.");
 			System.exit(1);
 		}
-
-		double p = 0.0; // Zinssatz
-		try {
-			p = Double.parseDouble(args[1]);
-		} catch (NumberFormatException e) {
-			System.err.println(args[1] + " is not a number");
-		}
-
+			
 		Scanner sc = null;
 		try {
 			sc = new Scanner(inFile);
