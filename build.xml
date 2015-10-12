@@ -34,5 +34,10 @@
       <arg value="0.05" />
     </java>
   </target>
+  
+  <target name="execute-input" depends="compile">
+    <java classpath="build/classes" classname="application.accounting.Main" input="./accounting.in">
+    </java>
+  </target>
 
 </project>
