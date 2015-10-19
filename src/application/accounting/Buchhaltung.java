@@ -11,6 +11,7 @@ import java.util.logging.FileHandler;
 import java.util.logging.Logger;
 import java.util.logging.LogRecord;
 import java.util.logging.Formatter;
+import java.util.logging.Level;
 
 
 public class Buchhaltung {
@@ -25,6 +26,11 @@ public class Buchhaltung {
 		File inFile = null;
 		String outfileStr = "";
 		File outFile = null;
+		
+		//set log level
+		logger.setLevel(Level.ALL);
+		
+		
 		
 		//get params
 		if (args.length == 0) {
@@ -130,7 +136,7 @@ public class Buchhaltung {
 		// while there are lines left
 		while (sc.hasNext()) {
 			curLine = sc.nextLine();
-			logger.fine("gelesene Zeile: " + curLine);
+			logger.log(Level.FINE, "gelesene Zeile: " + curLine);
 
 			// if line starts with '#' or has no content
 			if (curLine.startsWith("#") || curLine.matches("[ ]*")) {
