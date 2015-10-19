@@ -7,9 +7,17 @@ import java.util.ArrayList;
 import java.util.Scanner;
 import java.io.FileWriter;
 
+import java.util.logging.FileHandler;
+import java.util.logging.Logger;
+import java.util.logging.LogRecord;
+import java.util.logging.Formatter;
+
+
 public class Buchhaltung {
 
 	private static FileWriter outwriter = null;
+	
+	private static final Logger logger = Logger.getLogger(Buchhaltung.class.getName());
 
 	public static void call_main(String args[]) throws IOException {
 		String filestr = "";
@@ -17,6 +25,8 @@ public class Buchhaltung {
 		File inFile = null;
 		String outfileStr = "";
 		File outFile = null;
+		
+		//get params
 		if (args.length == 0) {
 			Scanner sc = new Scanner(System.in);
 			System.out.print("Reading Filename from stdin: ");
@@ -40,8 +50,31 @@ public class Buchhaltung {
 			} catch(NumberFormatException e) {
 				System.err.println(rest + " is no number!");
 			}
+			
+			try {
+			boolean append = true;
+			FileHandler fh = new FileHandler(argP.getLogFilename(), append);
+			fh.setFormatter(new Formatter() {
+				public String format(LogRecord rec) {
+					StringBuffer buf = new StringBuffer(1000);
+					buf.append(new java.util.Date()).append(' ');
+					buf.append(rec.getLevel()).append(' ');
+					buf.append(formatMessage(rec)).append('\n');
+					
+					return buf.toString();
+				}
+			});
+			
+			logger.addHandler(fh);
+			} catch (IOException e) {
+				logger.severe("Datei kann nicht geschrieben werden");
+				e.printStackTrace();
+			}
  			
 		}
+		
+		
+		//get infile
 		try {
 			inFile = new File(filestr);
 			if (!inFile.exists()) {
@@ -51,13 +84,17 @@ public class Buchhaltung {
 			System.err.println("File " + filestr + " does not exist.");
 			System.exit(1);
 		}
+		logger.info("Lese von Datei: " + filestr);
 		
+		
+		//get outfile
 		try {
 			outFile = new File(outfileStr);
 		} catch (NullPointerException e) {
 			System.err.println("File " + filestr + " not readable.");
 			System.exit(1);
 		}
+		logger.info("Schreibe in Datei: " + outfileStr);
 		
 		outwriter = new FileWriter(outFile);
 			
@@ -69,6 +106,8 @@ public class Buchhaltung {
 			e.printStackTrace();
 			System.exit(1);
 		}
+		
+		logger.info("Using Interest: " + p + "%");
 
 		// now we have all relevant data
 		String curLine = "";
@@ -91,6 +130,7 @@ public class Buchhaltung {
 		// while there are lines left
 		while (sc.hasNext()) {
 			curLine = sc.nextLine();
+			logger.fine("gelesene Zeile: " + curLine);
 
 			// if line starts with '#' or has no content
 			if (curLine.startsWith("#") || curLine.matches("[ ]*")) {

@@ -10,6 +10,7 @@
 .project
 .classpath
 src/data/*.new
+src/data/*.log
 
 
 #excluded folders
