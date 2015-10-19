@@ -1,4 +1,4 @@
-#excluded files (wildcards)
+#excluded files (general)
 *.class
 *.jar
 *.tar.bz2
@@ -9,6 +9,7 @@
 .ant-targets-build.xml
 .project
 .classpath
+src/data/*.new
 
 
 #excluded folders
