@@ -12,6 +12,9 @@ import java.util.logging.Logger;
 import java.util.logging.LogRecord;
 import java.util.logging.Formatter;
 import java.util.logging.Level;
+import java.util.Locale;
+import java.util.MissingResourceException;
+import java.util.ResourceBundle;
 
 
 public class Buchhaltung {
@@ -30,6 +33,9 @@ public class Buchhaltung {
 		//set log level
 		logger.setLevel(Level.ALL);
 		
+		//get rsource bundle
+		String baseName = "Buchhaltung";
+		ResourceBundle rb = ResourceBundle.getBundle(baseName);
 		
 		
 		//get params
@@ -90,7 +96,8 @@ public class Buchhaltung {
 			System.err.println("File " + filestr + " does not exist.");
 			System.exit(1);
 		}
-		logger.info("Lese von Datei: " + filestr);
+		String readinput_msg = rb.getString("readinput_msg");
+		logger.info(readinput_msg + ": " + filestr);
 		
 		
 		//get outfile
