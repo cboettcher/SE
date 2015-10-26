@@ -33,7 +33,7 @@ public class Buchhaltung {
 		//set log level
 		logger.setLevel(Level.ALL);
 		
-		//get rsource bundle
+		//get resource bundle
 		String baseName = "Buchhaltung";
 		ResourceBundle rb = ResourceBundle.getBundle(baseName);
 		
@@ -104,7 +104,7 @@ public class Buchhaltung {
 		try {
 			outFile = new File(outfileStr);
 		} catch (NullPointerException e) {
-			System.err.println("File " + filestr + " not readable.");
+			System.err.println("File " + filestr + " not writeable.");
 			System.exit(1);
 		}
 		logger.info("Schreibe in Datei: " + outfileStr);
