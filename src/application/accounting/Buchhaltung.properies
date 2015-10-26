@@ -1,0 +1,4 @@
+# Accounting.properties: common language resource file for
+#			Accounting.java
+#
+readinput_msg=read from file
