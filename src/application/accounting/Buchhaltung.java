@@ -58,17 +58,17 @@ public class Buchhaltung {
 			}
 			
 			try {
-			boolean append = true;
-			FileHandler fh = new FileHandler(argP.getLogFilename(), append);
-			fh.setFormatter(new Formatter() {
-				public String format(LogRecord rec) {
-					StringBuffer buf = new StringBuffer(1000);
-					buf.append(new java.util.Date()).append(' ');
-					buf.append(rec.getLevel()).append(' ');
-					buf.append(formatMessage(rec)).append('\n');
-					
-					return buf.toString();
-				}
+				boolean append = true;
+				FileHandler fh = new FileHandler(argP.getLogFilename(), append);
+				fh.setFormatter(new Formatter() {
+					public String format(LogRecord rec) {
+						StringBuffer buf = new StringBuffer(1000);
+						buf.append(new java.util.Date()).append(' ');
+						buf.append(rec.getLevel()).append(' ');
+						buf.append(formatMessage(rec)).append('\n');
+						
+						return buf.toString();
+					}
 			});
 			
 			logger.addHandler(fh);
