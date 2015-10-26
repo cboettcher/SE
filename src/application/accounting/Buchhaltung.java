@@ -35,7 +35,7 @@ public class Buchhaltung {
 		
 		//get rsource bundle
 		String baseName = "Buchhaltung";
-		ResourceBundle rb = ResourceBundle.getBundle(Buchhaltung);
+		ResourceBundle rb = ResourceBundle.getBundle(baseName);
 		
 		
 		//get params
@@ -97,7 +97,7 @@ public class Buchhaltung {
 			System.exit(1);
 		}
 		String readinput_msg = rb.getString("readinput_msg");
-		logger.info(readinput_msg": " + filestr);
+		logger.info(readinput_msg + ": " + filestr);
 		
 		
 		//get outfile
