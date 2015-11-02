@@ -16,6 +16,10 @@ import java.util.Locale;
 import java.util.MissingResourceException;
 import java.util.ResourceBundle;
 
+import java.net.MalformedURLException;
+import java.net.URL;
+import java.net.URLClassLoader;
+
 
 public class Buchhaltung {
 
@@ -29,13 +33,24 @@ public class Buchhaltung {
 		File inFile = null;
 		String outfileStr = "";
 		File outFile = null;
+		boolean help = false;
 		
 		//set log level
 		logger.setLevel(Level.ALL);
 		
 		//get resource bundle
 		String baseName = "Buchhaltung";
-		ResourceBundle rb = ResourceBundle.getBundle(baseName);
+		File file = new File("./dist/data/lang/");
+		ResourceBundle rb = null;
+		
+		try {
+		  URL[] urls = {file.toURI().toURL()};
+		  ClassLoader loader = new URLClassLoader(urls);
+		  rb = ResourceBundle.getBundle(baseName, Locale.getDefault(), loader);
+		}
+		catch (MalformedURLException e) {
+		  e.printStackTrace();
+		}
 		
 		
 		//get params
@@ -54,9 +69,19 @@ public class Buchhaltung {
 		else {
 			ArgParser argP = new ArgParser(args);
  			
+ 			help = argP.getShowHelp();
  			filestr = argP.getInputFilename();
  			outfileStr = argP.getOutputFilename();
+ 			String logFileString = argP.getLogFilename();
  			String rest = argP.getNonOptions();
+ 			FileHandler fh = null;
+ 			
+ 			// user needs help
+			if (help) {
+				System.err.println("-i | --input-file <filename>\n-o | --output-file <filename>\n-l | --log-file <filename>\n");
+				System.exit(0);
+			}
+ 			
  			try {
 				p = Double.parseDouble(rest);
 			} catch(NumberFormatException e) {
@@ -65,7 +90,7 @@ public class Buchhaltung {
 			
 			try {
 				boolean append = true;
-				FileHandler fh = new FileHandler(argP.getLogFilename(), append);
+				fh = new FileHandler(logFileString, append);
 				fh.setFormatter(new Formatter() {
 					public String format(LogRecord rec) {
 						StringBuffer buf = new StringBuffer(1000);
@@ -84,7 +109,6 @@ public class Buchhaltung {
 			}
  			
 		}
-		
 		
 		//get infile
 		try {

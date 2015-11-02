@@ -6,10 +6,7 @@
     <mkdir dir="build/classes"/>
     <mkdir dir="dist"/>
     <mkdir dir="dist/data/" />
-    
-    
-    
-    
+    <mkdir dir="dist/data/etc" />
   </target>
   
   <target name="create-language-links" depends="test-set-language-links" if="isNotALangDir">
@@ -45,16 +42,14 @@
   <target name="execute" depends="compile">
     <java classname="application.accounting.Main">
       <classpath refid="project.class.path" />
-      <arg file="src/data/data1.csv"/>
-      <arg value="0.05" />
+      <arg line="--input-file ./src/data/data1.csv -o ./src/data/data1.csv.new -l ./src/data/test.csv.log 0.05" />
     </java>
   </target>
   
   <target name ="execute-jar" depends="archive">
     <java classname="application.accounting.Main">
       <classpath refid="project.class.path" />
-      <arg file="src/data/data1.csv"/>
-      <arg value="0.05" />
+      <arg line="--input-file ./src/data/data1.csv -o ./src/data/data1.csv.new -l ./src/data/test.csv.log 0.05" />
     </java>
   </target>
   
@@ -99,5 +94,36 @@
     <pathelement path="./dist/accounting.jar" />
     <pathelement path="./dist/data/lang/" />
   </path>
+  
+  <property name="etc" value="dist/data/etc/" /> 
+  <property name="author.prj" value="Christian Boettcher" />  
+  
+  
+  
+  <tstamp>
+    <format property="timestamp.isoformat"
+	    pattern="yyyy-MM-dd'T'HH:mm:ss"
+	    locale="de" />
+  </tstamp>
+  
+  
+  <target name="create-manifest" depends="init" >
+    <manifest file="${etc}/MANIFEST.MF">
+      <attribute name="Built-By"
+		 value="${author.prj}" />
+      <attribute name="Built-On"
+		 value="${timestamp.isoformat}" />
+      <attribute name="Main-Class"
+		 value="application.accounting.Main" />
+    </manifest>
+  </target>
+  
+  
+  <target name="archive-application" depends="compile, create-manifest">
+      <jar destfile="dist/Accounting-app.jar"
+	   basedir="build/classes/"
+	   excludes="**/testcases/*"
+	   manifest="${etc}/MANIFEST.MF" />
+  </target>
 
 </project>
