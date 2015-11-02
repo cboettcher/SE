@@ -5,10 +5,31 @@
   <target name="init">
     <mkdir dir="build/classes"/>
     <mkdir dir="dist"/>
+    <mkdir dir="dist/data/" />
+    
+    
+    
+    
+  </target>
+  
+  <target name="create-language-links" depends="test-set-language-links" if="isNotALangDir">
+    <exec executable="ln">
+      <arg line="-sn" />
+      <arg file="./src/data/lang" />
+      <arg file="./dist/data/lang" />
+    </exec>
+  </target>
+  
+  <target name="delete-language-links" depends="test-delete-language-links" if="isADir">
+    <exec executable="rm">
+      <arg file="./dist/data/lang" />
+    </exec>
   </target>
 
-  <target name="compile" depends="init">
-    <javac includeAntRuntime="false" srcdir="src" destdir="build/classes" debug="true" debuglevel="lines,vars,source"/>
+  <target name="compile" depends="create-language-links">
+    <javac includeAntRuntime="false" srcdir="src" destdir="build/classes" debug="true" debuglevel="lines,vars,source">
+      <classpath refid="project.class.path" />
+    </javac>
   </target>
 
   <target name="archive" depends="compile">
@@ -16,40 +37,67 @@
         basedir="build/classes"/>
   </target>
 
-  <target name="clean" depends="init">
+  <target name="clean" depends="delete-language-links">
     <delete dir="build"/>
     <delete dir="dist"/>
   </target>
   
   <target name="execute" depends="compile">
-    <java classpath="build/classes" classname="application.accounting.Main">
+    <java classname="application.accounting.Main">
+      <classpath refid="project.class.path" />
       <arg file="src/data/data1.csv"/>
       <arg value="0.05" />
     </java>
   </target>
   
   <target name ="execute-jar" depends="archive">
-    <java classpath="dist/accounting.jar" classname="application.accounting.Main">
+    <java classname="application.accounting.Main">
+      <classpath refid="project.class.path" />
       <arg file="src/data/data1.csv"/>
       <arg value="0.05" />
     </java>
   </target>
   
   <target name="execute-input" depends="compile">
-    <java classpath="build/classes" classname="application.accounting.Main" input="./accounting.in">
+    <java classname="application.accounting.Main" input="./accounting.in">
+      <classpath refid="project.class.path" />
     </java>
   </target>
   
   <target name="execute-argparser" depends="compile">
-    <java classpath="build/classes" classname="application.accounting.ArgParser">
+    <java classname="application.accounting.ArgParser">
+      <classpath refid="project.class.path" />
       <arg line="--input-file ./src/data/data1.csv -o ./src/data/data1.csv.new -l ./src/data/test.csv.log 0.05" />
     </java>
   </target>
   
   <target name="execute-params" depends="compile">
-    <java classpath="build/classes" classname="application.accounting.Main">
+    <java classname="application.accounting.Main">
+      <classpath refid="project.class.path" />
       <arg line="--input-file ./src/data/data1.csv -o ./src/data/data1.csv.new -l ./src/data/test.csv.log 0.05" />
     </java>
   </target>
+  
+  
+  <target name="test-set-language-links" depends="init">
+    <condition property="isNotALangDir">
+      <not>
+	<available file="./dist/data/lang" type="dir" />
+      </not>
+    </condition>
+  </target>
+  
+  <target name="test-delete-language-links">
+    <condition property="isADir">
+      <available file="./dist/data/lang" type="dir" />
+    </condition>
+  </target>
+  
+  
+  <path id="project.class.path">
+    <pathelement path="./build/classes" />
+    <pathelement path="./dist/accounting.jar" />
+    <pathelement path="./dist/data/lang/" />
+  </path>
 
 </project>
