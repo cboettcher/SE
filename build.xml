@@ -141,7 +141,7 @@
 DIR="src/data/testdata"
 FILES=`ls $DIR/test_err_*.in`
 
-COUNTER=1
+COUNTER=0
 for I in $FILES
 do
   java -jar ./dist/Accounting-app.jar --input-file $I -o $DIR/test_err_$COUNTER.out -l $DIR/test1.log 0.05

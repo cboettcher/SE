@@ -200,9 +200,18 @@ public class Buchhaltung {
 			sparer.add(tmp);
 
 			for (int i = 4; i < splits.length; i += 2) {
-				day = Integer.parseInt(splits[i]);
-				tmpMoney = getIntValue(splits[i + 1]);
-				tmp.addTransaction(day, tmpMoney);
+				try {
+					day = Integer.parseInt(splits[i]);
+					tmpMoney = getIntValue(splits[i + 1]);
+					tmp.addTransaction(day, tmpMoney);
+				} catch (NumberFormatException e1) {
+					System.err.println(splits[i] + ";" + splits[i+1] + " is not a proper entry!");
+					System.exit(1);
+				} catch (ArrayIndexOutOfBoundsException e1) {
+					System.err.println("A Line contains the wrong Number of entries. Please check your File for Errors");
+					System.err.println(curLine);
+					System.exit(1);
+				}
 			}
 		}
 		
