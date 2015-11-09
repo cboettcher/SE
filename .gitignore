@@ -11,6 +11,9 @@
 .classpath
 src/data/*.new
 src/data/*.log
+src/data/testdata/*.log
+src/data/testdata/*.out
+src/testcases/*.sh
 
 
 #excluded folders

@@ -128,11 +128,28 @@
   
   <property name="errDir" value="testdata/" />
   
-  <target name="execute-error-input" depends="archive" >
-      <java classname="application.accounting.Main">
-      <classpath refid="project.class.path" />
-      <arg line="--input-file ./src/data/data1.csv -o ./src/data/data1.csv.new -l ./src/data/test.csv.log 0.05" />
-    </java>
+  <target name="execute-error-input" depends="archive-application, create-test-script" >
+      <exec executable="/bin/bash">
+	<arg value="./dist/ant_01.sh"/>
+      </exec>
+      <delete file="./dist/ant_01.sh"/>
+  </target>
+  
+  <target name="create-test-script" >
+    <echo file="dist/ant_01.sh" append="false">#!/bin/bash
+
+DIR="src/data/testdata"
+FILES=`ls $DIR/test_err_*.in`
+
+COUNTER=1
+for I in $FILES
+do
+  java -jar ./dist/Accounting-app.jar --input-file $I -o $DIR/test_err_$COUNTER.out -l $DIR/test1.log 0.05
+  let COUNTER=COUNTER+1
+done
+
+exit 0
+</echo>
   </target>
 
 </project>

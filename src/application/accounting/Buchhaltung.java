@@ -152,7 +152,7 @@ public class Buchhaltung {
 		String id;
 		String lastName;
 		String firstName;
-		int startingMoney;
+		int startingMoney = 0;
 		int tmpMoney;
 		int day;
 		Sparer tmp;
@@ -189,7 +189,13 @@ public class Buchhaltung {
 			id = splits[0];
 			lastName = splits[1];
 			firstName = splits[2];
-			startingMoney = getIntValue(splits[3]);
+			try {
+				startingMoney = getIntValue(splits[3]);
+			} catch (NumberFormatException e) {
+				System.err.println("'" + splits[3] + "' is not a number!\n"
+				  + "Please resolve errors in the input file and try again");
+				System.exit(1);
+			}
 			tmp = new Sparer(id, lastName, firstName, startingMoney);
 			sparer.add(tmp);
 
