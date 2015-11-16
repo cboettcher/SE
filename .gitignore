@@ -4,6 +4,7 @@
 *.tar.bz2
 *.in
 *.log
+*.out
 
 
 #excluded files (specified)
