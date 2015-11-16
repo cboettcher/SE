@@ -3,6 +3,7 @@
 *.jar
 *.tar.bz2
 *.in
+*.log
 
 
 #excluded files (specified)
@@ -17,3 +18,4 @@ build/
 dist/
 /bin/
 .settings/
+lib/

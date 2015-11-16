@@ -10,6 +10,8 @@ import java.io.FileWriter;
 public class Buchhaltung {
 
 	private static FileWriter outwriter = null;
+	public static final String applicationVersion = "Id: <FILE>, version <COMMITHASHABBREVIATED> " + 
+	    "of <COMMITTERDATEISO8607> by <AUTHORNAME>";
 
 	public static void call_main(String args[]) throws IOException {
 		String filestr = "";
