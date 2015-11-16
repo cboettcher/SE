@@ -2,6 +2,30 @@
 
 <project name="accounting" default="archive">
 
+  <description>
+Projektname: ${project.prj}
+Autor: ${author.prj}
+
+Eine ausfuehrliche Beschreibung erhaelt man durch:
+
+  &quot;ant -e help&quot;
+  </description>
+
+  <target name="help">
+    <echo>
+Projektname: ${project.prj}
+Autor: ${author.prj}
+
+</echo>
+      <echo>
+Das Projekt "accounting" zeigt verschiedene Schritte und Taetigkeiten, 
+die bei der Durchfuehrung eines Projektes durchzufuehren sind.
+
+Dabei werden die verschiedenen unktionen von &apos;git&apos; und &apos;ant&apos;
+ausprobiert und (kennen) gelernt.
+</echo>
+  </target>
+
   <target name="init">
     <mkdir dir="build/classes"/>
     <mkdir dir="dist"/>
@@ -23,23 +47,23 @@
     </exec>
   </target>
 
-  <target name="compile" depends="create-language-links">
+  <target name="compile" depends="create-language-links" description="kompiliert alle java-Dateien.">
     <javac includeAntRuntime="false" srcdir="src" destdir="build/classes" debug="true" debuglevel="lines,vars,source">
       <classpath refid="project.class.path" />
     </javac>
   </target>
 
-  <target name="archive" depends="compile">
+  <target name="archive" depends="compile" description="Erstellt eine har-Datei mit allen Klassen.">
     <jar destfile="dist/accounting.jar"
         basedir="build/classes"/>
   </target>
 
-  <target name="clean" depends="delete-language-links">
+  <target name="clean" depends="delete-language-links" description="Loescht alle generierten Verzeichnisse und Dateien">
     <delete dir="build"/>
     <delete dir="dist"/>
   </target>
   
-  <target name="execute" depends="compile">
+  <target name="execute" depends="compile" description="Fuehrt das Projekt aus.">
     <java classname="application.accounting.Main">
       <classpath refid="project.class.path" />
       <arg line="--input-file ./src/data/data1.csv -o ./src/data/data1.csv.new -l ./src/data/test.csv.log 0.05" />
@@ -94,9 +118,10 @@
     <pathelement path="./dist/accounting.jar" />
     <pathelement path="./dist/data/lang/" />
   </path>
-  
+<!--  -->
   <property name="etc" value="dist/data/etc/" /> 
   <property name="author.prj" value="Christian Boettcher" />  
+  <property name="project.prj" value = "accounting"/>
   
   
   
@@ -119,7 +144,7 @@
   </target>
   
   
-  <target name="archive-application" depends="compile, create-manifest">
+  <target name="archive-application" depends="compile, create-manifest" description="Erstellt eine ausfuehrbare jar-datei.">
       <jar destfile="dist/Accounting-app.jar"
 	   basedir="build/classes/"
 	   excludes="**/testcases/*"
