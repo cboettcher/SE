@@ -36,11 +36,11 @@ public class Buchhaltung {
  			
  			filestr = argP.getInputFilename();
  			outfileStr = argP.getOutputFilename();
- 			String rest = argP.getNonOptions();
+ 			String interest = argP.getInterest();
  			try {
-				p = Double.parseDouble(rest);
+				p = Double.parseDouble(interest);
 			} catch(NumberFormatException e) {
-				System.err.println(rest + " is no number!");
+				System.err.println(interest + " is no number!");
 			}
  			
 		}

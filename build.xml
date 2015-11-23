@@ -48,7 +48,7 @@
   
   <target name="execute-params" depends="compile">
     <java classpath="build/classes" classname="application.accounting.Main">
-      <arg line="--input-file ./src/data/data1.csv -o ./src/data/data1.csv.new -l ./src/data/test.csv.log 0.05" />
+      <arg line="--input-file ./src/data/data1.csv -o ./src/data/data1.csv.new -l ./src/data/test.csv.log -r 0.05" />
     </java>
   </target>
 
