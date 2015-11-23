@@ -24,8 +24,9 @@ import java.net.URLClassLoader;
 public class Buchhaltung {
 
 	private static FileWriter outwriter = null;
-	
 	private static final Logger logger = Logger.getLogger(Buchhaltung.class.getName());
+	public static final String applicationVersion = "Id: Buchhaltung.java, version 2d61a74 " + 
+	    "of <COMMITTERDATEISO8607> by Christian Boettcher";
 
 	public static void call_main(String args[]) throws IOException {
 		String filestr = "";
@@ -72,6 +73,7 @@ public class Buchhaltung {
  			help = argP.getShowHelp();
  			filestr = argP.getInputFilename();
  			outfileStr = argP.getOutputFilename();
+
  			String logFileString = argP.getLogFilename();
  			String rest = argP.getNonOptions();
  			FileHandler fh = null;
@@ -82,10 +84,11 @@ public class Buchhaltung {
 				System.exit(0);
 			}
  			
+ 			String interest = argP.getInterest();
  			try {
-				p = Double.parseDouble(rest);
+				p = Double.parseDouble(interest);
 			} catch(NumberFormatException e) {
-				System.err.println(rest + " is no number!");
+				System.err.println(interest + " is no number!");
 			}
 			
 			try {

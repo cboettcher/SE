@@ -1,5 +1,8 @@
 package application.accounting;
 
+import gnu.getopt.*;
+
+
 // Parses arguments from an array provided at object-initialisation
 public class ArgParser {
 
@@ -10,6 +13,7 @@ public class ArgParser {
     private String outputFilename = null;
     private String logFilename = null;
     private String nonOptions = null;
+    private String interest = null;
 
     public ArgParser(String[] args) {
 
@@ -27,72 +31,61 @@ public class ArgParser {
 	-i | --input-file <filename>\n
 	-o | --output-file <filename>\n
 	-l | --log-file <filename>\n
+	-r | --rate-of-interest <interest>\n
 	
 	
     
     
     */
     private void parseArgs() {
-
-        StringBuffer sb = null;
-                               
-        for ( int i = 0; i < args.length; i++ ) {
-
-            if ( args[i].equals("-h") || args[i].equals("--help") ) {
-                System.out.println("User asks for help");
-                showHelp = true;
-            } // end of if ( args[i].equals("-h") ... ) )
-            else if ( args[i].equals("-v") || args[i].equals("--version") ) {
-                System.out.println("User asks for the program's version");
-                showVersion = true;
-            } // end of else if ( args[i].equals("-v") ... )
-            else if ( args[i].equals("-i") || args[i].equals("--input-file") ) {
-
-                if ( i + 1 < args.length ) {
-                    inputFilename = args[++i];
-                } // end of if ( i + 1 < args.length )
-                else {
-                    throw new IllegalArgumentException("missing filename");
-                } // end of if ( i + 1 < args.length ) else
-
-            } // end of else if ( args[i].equals("-i") ... )
-            else if ( args[i].equals("-o") || args[i].equals("--output-file") ) {
-
-                if ( i + 1 < args.length ) {
-                    outputFilename = args[++i];
-                } // end of if ( i + 1 < args.length )
-                else {
-                    throw new IllegalArgumentException("missing filename");
-                } // end of if ( i + 1 < args.length ) else
-
-            } // end of else if ( args[i].equals("-o") ... )
-            else if ( args[i].equals("-l") || args[i].equals("--log-file") ) {
-
-                if ( i + 1 < args.length ) {
-                    logFilename = args[++i];
-                } // end of if ( i + 1 < args.length )
-                else {
-                    throw new IllegalArgumentException("missing filename");
-                } // end of if ( i + 1 < args.length ) else
-
-            } // end of else if ( args[i].equals("-l") ... )
-            else {
-                
-                if ( sb == null ) {
-                    sb = new StringBuffer();
-                    sb.append(args[i]);
-                } // end of if ( sb == null )
-                else {
-                    sb.append(" ").append(args[i]);
-                } // end of if ( sb == null ) else
-
-            } // end of if ( args[i].equals("-h") ... ) else
-                
-        } // end of for (int i = 0; i < args.length; i++)
-
-        if ( sb != null ) {
-            nonOptions = sb.toString();
-        } // end of if ()
+	int c;
+	String arg;
+	StringBuffer sb = new StringBuffer();
+	LongOpt[] longopts = 
+	{
+	    new LongOpt("input-file", LongOpt.REQUIRED_ARGUMENT, sb, 'i'),
+	    new LongOpt("output-file", LongOpt.REQUIRED_ARGUMENT, sb, 'o'),
+	    new LongOpt("log-file", LongOpt.OPTIONAL_ARGUMENT, sb, 'l'),
+	    new LongOpt("rate-of-interest", LongOpt.REQUIRED_ARGUMENT, sb, 'r'),
+	    new LongOpt("help", LongOpt.NO_ARGUMENT, null, 'h'),
+	    new LongOpt("version", LongOpt.NO_ARGUMENT, null, 'v'),
+	};
+	
+	Getopt g = new Getopt("Buchhaltung", this.args, "i:o:l::r:hc", longopts);
+	
+	while((c = g.getopt()) != -1) {
+		switch(c) {
+			case 'h':
+			  this.showHelp = true;
+			  break;
+			  
+			case 'v':
+			  this.showVersion = true;
+			  break;
+			  
+			case 'i':
+			  arg = g.getOptarg();
+			  this.inputFilename = arg;
+			  break;
+			  
+			case 'o':
+			  arg = g.getOptarg();
+			  this.outputFilename = arg;
+			  break;
+			case 'l':
+			  arg = g.getOptarg();
+			  this.logFilename = arg;
+			  break;
+			case 'r':
+			  arg = g.getOptarg();
+			  this.interest = arg;
+			  break;
+			default:
+			  this.nonOptions = this.nonOptions + ", " + arg;
+			  break;
+		}
+	}
+        
 
     } // end of method "parseArgs()"
 
@@ -183,6 +176,10 @@ public class ArgParser {
     public String getNonOptions() {
         return nonOptions;
     } // end of method "getNonOptions()"
+    
+    public String getInterest() {
+	return this.interest;
+    }
 
 
     public static final void main(final String[] args) {
