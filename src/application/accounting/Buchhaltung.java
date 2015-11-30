@@ -89,6 +89,7 @@ public class Buchhaltung {
 				p = Double.parseDouble(interest);
 			} catch(NumberFormatException e) {
 				System.err.println(interest + " is no number!");
+				System.exit(1);
 			}
 			
 			try {
@@ -103,9 +104,9 @@ public class Buchhaltung {
 						
 						return buf.toString();
 					}
-			});
+				});
 			
-			logger.addHandler(fh);
+				logger.addHandler(fh);
 			} catch (IOException e) {
 				logger.severe("Datei kann nicht geschrieben werden");
 				e.printStackTrace();

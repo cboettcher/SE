@@ -86,14 +86,14 @@ ausprobiert und (kennen) gelernt.
   <target name="execute-argparser" depends="compile">
     <java classname="application.accounting.ArgParser">
       <classpath refid="project.class.path" />
-      <arg line="--input-file ./src/data/data1.csv -o ./src/data/data1.csv.new -l ./src/data/test.csv.log 0.05" />
+      <arg line="-l ./src/data/test.csv.log -i ./src/data/data1.csv -o ./src/data/data1.csv.new -r 0.05" />
     </java>
   </target>
   
   <target name="execute-params" depends="compile">
     <java classname="application.accounting.Main">
       <classpath refid="project.class.path" />
-      <arg line="--input-file ./src/data/data1.csv -o ./src/data/data1.csv.new -l ./src/data/test.csv.log -r 0.05" />
+      <arg line="-i ./src/data/data1.csv -o ./src/data/data1.csv.new -r 0.05 -l ./src/data/test.csv.log" />
     </java>
   </target>
   
@@ -117,6 +117,7 @@ ausprobiert und (kennen) gelernt.
     <pathelement path="./build/classes" />
     <pathelement path="./dist/accounting.jar" />
     <pathelement path="./dist/data/lang/" />
+    <pathelement path="./lib/java/java-getopt/" />
   </path>
 <!--  -->
   <property name="etc" value="dist/data/etc/" /> 

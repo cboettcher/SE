@@ -39,19 +39,19 @@ public class ArgParser {
     */
     private void parseArgs() {
 	int c;
-	String arg;
+	String arg = "";
 	StringBuffer sb = new StringBuffer();
 	LongOpt[] longopts = 
 	{
 	    new LongOpt("input-file", LongOpt.REQUIRED_ARGUMENT, sb, 'i'),
 	    new LongOpt("output-file", LongOpt.REQUIRED_ARGUMENT, sb, 'o'),
-	    new LongOpt("log-file", LongOpt.OPTIONAL_ARGUMENT, sb, 'l'),
+	    new LongOpt("log-file", LongOpt.REQUIRED_ARGUMENT, sb, 'l'),
 	    new LongOpt("rate-of-interest", LongOpt.REQUIRED_ARGUMENT, sb, 'r'),
 	    new LongOpt("help", LongOpt.NO_ARGUMENT, null, 'h'),
 	    new LongOpt("version", LongOpt.NO_ARGUMENT, null, 'v'),
 	};
 	
-	Getopt g = new Getopt("Buchhaltung", this.args, "i:o:l::r:hc", longopts);
+	Getopt g = new Getopt("Buchhaltung", this.args, "i:o:l:r:hc", longopts);
 	
 	while((c = g.getopt()) != -1) {
 		switch(c) {
@@ -72,16 +72,19 @@ public class ArgParser {
 			  arg = g.getOptarg();
 			  this.outputFilename = arg;
 			  break;
+			  
 			case 'l':
 			  arg = g.getOptarg();
 			  this.logFilename = arg;
 			  break;
+			  
 			case 'r':
 			  arg = g.getOptarg();
 			  this.interest = arg;
 			  break;
+			  
 			default:
-			  this.nonOptions = this.nonOptions + ", " + arg;
+			  this.nonOptions = this.nonOptions + ", " + c;
 			  break;
 		}
 	}
@@ -111,7 +114,7 @@ public class ArgParser {
             else if ( args[i].equals("-i") || args[i].equals("--input-file") ||
                 args[i].equals("-o") || args[i].equals("--output-file") ) {
 
-                System.out.println("i: " + i + ", args.length: " + args.length);
+                //System.out.println("i: " + i + ", args.length: " + args.length);
                 if ( i + 1 < args.length ) {
                     sb.append(args[i] + " " + args[++i]).append("\n");
                 } // end of if ( i + 1 < args.length )
@@ -123,7 +126,7 @@ public class ArgParser {
             else if ( args[i].equals("-l") || args[i].equals("--log-file") ) {
 
                 if ( i + 1 < args.length ) {
-
+		    System.out.println(args[i] + " " + args[i+1]);
                     if ( args[i + 1].startsWith("-") ) {
                         sb.append(args[i]).append("\n");
                     } // end of if ( args[ i + 1].startsWith("-") )
@@ -134,6 +137,18 @@ public class ArgParser {
                 } // end of if ( i + 1 < args.length )
 
             } // end of else if ( args[i].equals("-i") ... )
+            else if (args[i].equals("-r") || args[i].equals("--rate-of-interest")) {
+		if ( i + 1 < args.length ) {
+
+                    if ( args[i + 1].startsWith("-") ) {
+                        sb.append(args[i]).append("\n");
+                    } // end of if ( args[ i + 1].startsWith("-") )
+                    else {
+                        sb.append(args[i] + " " + args[++i]).append("\n");
+                    } // end of if ( args[ i + 1].startsWith("-") ) else
+
+                } // end of if ( i + 1 < args.length )
+            }
             else {
 
                 sb.append("non-option argument: " +
@@ -144,7 +159,14 @@ public class ArgParser {
         } // end of for (int i = 0; i  < args.length; i++)
 
         return sb.toString();
-
+/*
+        sb = new StringBuffer();
+        for (int i = 0; i < args.length; i++) {
+		sb.append(args[i] + " ");
+        }
+       
+        return sb.toString();
+*/       
     } // end of method "toString()"
 
 
