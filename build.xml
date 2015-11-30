@@ -66,14 +66,14 @@ ausprobiert und (kennen) gelernt.
   <target name="execute" depends="compile" description="Fuehrt das Projekt aus.">
     <java classname="application.accounting.Main">
       <classpath refid="project.class.path" />
-      <arg line="--input-file ./src/data/data1.csv -o ./src/data/data1.csv.new -l ./src/data/test.csv.log 0.05" />
+      <arg line="--input-file ./src/data/data1.csv -o ./src/data/data1.csv.new -l ./src/data/test.csv.log -r 0.05" />
     </java>
   </target>
   
   <target name ="execute-jar" depends="archive">
     <java classname="application.accounting.Main">
       <classpath refid="project.class.path" />
-      <arg line="--input-file ./src/data/data1.csv -o ./src/data/data1.csv.new -l ./src/data/test.csv.log 0.05" />
+      <arg line="--input-file ./src/data/data1.csv -o ./src/data/data1.csv.new -l ./src/data/test.csv.log -r 0.05" />
     </java>
   </target>
   
@@ -170,7 +170,7 @@ FILES=`ls $DIR/test_err_*.in`
 COUNTER=0
 for I in $FILES
 do
-  java -jar ./dist/Accounting-app.jar --input-file $I -o $DIR/test_err_$COUNTER.out -l $DIR/test1.log 0.05
+  java -jar ./dist/Accounting-app.jar --input-file $I -o $DIR/test_err_$COUNTER.out -l $DIR/test1.log -r 0.05
   let COUNTER=COUNTER+1
 done
 
