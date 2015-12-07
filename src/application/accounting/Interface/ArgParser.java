@@ -9,6 +9,7 @@ public class ArgParser {
     private String[] args = null;
     private boolean showHelp = false;
     private boolean showVersion = false;
+    private boolean interactive = true;
     private String inputFilename = null;
     private String outputFilename = null;
     private String logFilename = null;
@@ -51,7 +52,7 @@ public class ArgParser {
 	    new LongOpt("version", LongOpt.NO_ARGUMENT, null, 'v'),
 	};
 	
-	Getopt g = new Getopt("Buchhaltung", this.args, "i:o:l:r:hc", longopts);
+	Getopt g = new Getopt("Buchhaltung", this.args, "i:o:l:r:hcp", longopts);
 	
 	while((c = g.getopt()) != -1) {
 		switch(c) {
@@ -81,6 +82,10 @@ public class ArgParser {
 			case 'r':
 			  arg = g.getOptarg();
 			  this.interest = arg;
+			  break;
+			  
+			case 'p':
+			  this.interactive = false;
 			  break;
 			  
 			default:
@@ -178,6 +183,10 @@ public class ArgParser {
     public boolean getShowVersion() {
         return showHelp;
     } // end of method "getShowVersion()"
+    
+    public boolean isInteractive() {
+	return this.interactive;
+    }
 
 
     public String getInputFilename() {

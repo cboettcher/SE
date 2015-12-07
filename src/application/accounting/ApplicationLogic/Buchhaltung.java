@@ -30,7 +30,7 @@ public class Buchhaltung {
 	private static FileWriter outwriter = null;
 	private static final Logger logger = Logger.getLogger(Buchhaltung.class.getName());
 	public static final String applicationVersion = "Id: Buchhaltung.java, version 2d61a74 " + 
-	    "of <COMMITTERDATEISO8607> by Christian Boettcher";
+	    " by Christian Boettcher";
 
 	public static void call_main(String args[]) throws IOException {
 		String filestr = "";
@@ -40,6 +40,7 @@ public class Buchhaltung {
 		File outFile = null;
 		boolean help = false;
 		BigDecimal zins = null;
+		boolean isInteractive = false;
 		
 		//set log level
 		logger.setLevel(Level.ALL);
@@ -75,6 +76,7 @@ public class Buchhaltung {
 		else {
 			ArgParser argP = new ArgParser(args);
  			
+ 			isInteractive = argP.isInteractive();
  			help = argP.getShowHelp();
  			filestr = argP.getInputFilename();
  			outfileStr = argP.getOutputFilename();
@@ -228,8 +230,10 @@ public class Buchhaltung {
 		outwriter.write(header + "");
 		sc.close();
 		
+		if (isInteractive) {
+			interactive(sparer);
+		}
 		writeNewyear(sparer);
-		
 		
 		outwriter.close();
 		
@@ -242,5 +246,35 @@ public class Buchhaltung {
 			outwriter.write("\n");
 		}
 		outwriter.write("\n");
+	}
+	
+	private static void interactive(ArrayList<Sparer> sparer) {
+		char opt;
+		Scanner sc = new Scanner(System.in);
+		printMenu();
+		while ((opt = sc.next().charAt(0)) != 'x') {
+			switch(opt) {
+				case '1':
+				case '2':
+					System.out.println("This service is not offered yet.");
+					break;
+				case '3':
+					return;
+				default:
+					System.out.println("This is not a viable options.");
+			}
+			
+			printMenu();
+		
+		}
+		System.exit(0);
+	}
+	
+	private static void printMenu() {
+		System.out.println("1) Einzahlung verbuchen");
+		System.out.println("2) Mitglied aufnehmen");
+		System.out.println("3) Jahresabschluss durchfuehren");
+		System.out.println();
+		System.out.println("x) Programm beenden");
 	}
 }
