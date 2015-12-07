@@ -1,4 +1,4 @@
-package application.accounting;
+package application.accounting.Interface;
 
 import gnu.getopt.*;
 

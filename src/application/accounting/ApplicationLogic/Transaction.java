@@ -1,4 +1,4 @@
-package application.accounting;
+package application.accounting.ApplicationLogic;
 
 import java.math.BigDecimal;
 

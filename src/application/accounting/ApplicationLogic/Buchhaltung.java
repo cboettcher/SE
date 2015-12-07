@@ -1,4 +1,4 @@
-package application.accounting;
+package application.accounting.ApplicationLogic;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -21,6 +21,8 @@ import java.net.URL;
 import java.net.URLClassLoader;
 
 import java.math.BigDecimal;
+
+import application.accounting.Interface.*;
 
 
 public class Buchhaltung {
