@@ -20,6 +20,8 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLClassLoader;
 
+import java.math.BigDecimal;
+
 
 public class Buchhaltung {
 
@@ -35,6 +37,7 @@ public class Buchhaltung {
 		String outfileStr = "";
 		File outFile = null;
 		boolean help = false;
+		BigDecimal zins = null;
 		
 		//set log level
 		logger.setLevel(Level.ALL);
@@ -87,6 +90,7 @@ public class Buchhaltung {
  			String interest = argP.getInterest();
  			try {
 				p = Double.parseDouble(interest);
+				zins = new BigDecimal(interest);
 			} catch(NumberFormatException e) {
 				System.err.println(interest + " is no number!");
 				System.exit(1);
@@ -156,13 +160,13 @@ public class Buchhaltung {
 		String id;
 		String lastName;
 		String firstName;
-		int startingMoney = 0;
-		int tmpMoney;
+		BigDecimal startingMoney = null;
+		BigDecimal tmpMoney = null;
 		int day;
 		Sparer tmp;
 		ArrayList<Sparer> sparer = new ArrayList<Sparer>();
 
-		Sparer.setZins(p);
+		Sparer.setZins(zins);
 
 		boolean isHeader = true;
 		String header = "";
@@ -194,7 +198,7 @@ public class Buchhaltung {
 			lastName = splits[1];
 			firstName = splits[2];
 			try {
-				startingMoney = getIntValue(splits[3]);
+				startingMoney = new BigDecimal(splits[3]);
 			} catch (NumberFormatException e) {
 				System.err.println("'" + splits[3] + "' is not a number!\n"
 				  + "Please resolve errors in the input file and try again");
@@ -206,7 +210,7 @@ public class Buchhaltung {
 			for (int i = 4; i < splits.length; i += 2) {
 				try {
 					day = Integer.parseInt(splits[i]);
-					tmpMoney = getIntValue(splits[i + 1]);
+					tmpMoney = new BigDecimal(splits[i + 1]);
 					tmp.addTransaction(day, tmpMoney);
 				} catch (NumberFormatException e1) {
 					System.err.println(splits[i] + ";" + splits[i+1] + " is not a proper entry!");
@@ -227,19 +231,6 @@ public class Buchhaltung {
 		
 		outwriter.close();
 		
-	}
-
-	public static int getIntValue(String number) {
-		String split[] = number.split(",");
-		int value = Integer.parseInt(split[0]) * 100;
-		if (split.length == 2) {
-			// get the value after the comma
-			value += (split[1].length() == 2) ? (Integer.parseInt(split[1]))
-					: (Integer.parseInt(split[1]) * 10);
-		}
-
-		return value;
-
 	}
 
 	public static void writeNewyear(ArrayList<Sparer> sparer) throws IOException{

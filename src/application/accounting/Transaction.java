@@ -1,15 +1,17 @@
 package application.accounting;
 
+import java.math.BigDecimal;
+
 public class Transaction {
 	private int day;
-	private int money;
+	private BigDecimal money;
 
-	public Transaction(int d, int m) {
+	public Transaction(int d, BigDecimal m) {
 		this.day = d;
 		this.money = m;
 	}
 
-	public int getMoney() {
+	public BigDecimal getMoney() {
 		return this.money;
 	}
 
