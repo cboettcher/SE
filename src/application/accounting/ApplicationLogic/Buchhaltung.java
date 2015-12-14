@@ -268,16 +268,39 @@ public class Buchhaltung {
 		char opt;
 		Scanner sc = new Scanner(System.in);
 		printMenu();
+		String id;
+		String name;
+		String firstName;
+		String day;
+		String amount;
 		while ((opt = sc.next().charAt(0)) != 'x') {
 			switch(opt) {
 				case '1':
+					System.out.println("Please enter the Member ID: ");
+					id = sc.next();
+					System.out.println("Please enter the Day of the Transaction: ");
+					day = sc.next();
+					System.out.println("Please enter the amount of money: ");
+					amount = sc.next();
+					addTrans(sparer, id + ";" + amount + ";" + day);
+					break;
 				case '2':
-					System.out.println("This service is not offered yet.");
+					System.out.println("Please enter the Member ID: ");
+					id = sc.next();
+					System.out.println("Please enter the Member name: ");
+					name = sc.next();
+					System.out.println("Please enter the Member first name: ");
+					firstName = sc.next();
+					System.out.println("Please enter the initial amount of money: ");
+					amount = sc.next();
+					System.out.println("Please enter the initial day: ");
+					day = sc.next();
+					addMember(sparer, id + ";" + name + ";" + firstName + ";" + amount + ";" + day);
 					break;
 				case '3':
 					return;
 				default:
-					System.out.println("This is not a viable options.");
+					System.out.println("This is not a viable option.");
 			}
 			
 			printMenu();
