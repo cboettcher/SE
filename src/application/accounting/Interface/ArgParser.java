@@ -15,6 +15,10 @@ public class ArgParser {
     private String logFilename = null;
     private String nonOptions = null;
     private String interest = null;
+    private String eArg = null;
+    private boolean eArgPresent = false;
+    private String mArg = null;
+    private boolean mArgPresent = false;
 
     public ArgParser(String[] args) {
 
@@ -52,7 +56,7 @@ public class ArgParser {
 	    new LongOpt("version", LongOpt.NO_ARGUMENT, null, 'v'),
 	};
 	
-	Getopt g = new Getopt("Buchhaltung", this.args, "i:o:l:r:hcp", longopts);
+	Getopt g = new Getopt("Buchhaltung", this.args, "i:o:l:r:hcpe:m:", longopts);
 	
 	while((c = g.getopt()) != -1) {
 		switch(c) {
@@ -87,6 +91,25 @@ public class ArgParser {
 			case 'p':
 			  this.interactive = false;
 			  break;
+			  
+			case 'e':
+			  if (!eArgPresent) {
+				this.eArg = g.getOptarg();
+				this.eArgPresent = true;
+			  } else {
+				//Just do noting, later occurences are ignored
+			  }
+			  break;
+			  
+			case 'm':
+			  if (!eArgPresent) {
+				this.mArg = g.getOptarg();
+				this.mArgPresent = true;
+			  } else {
+				//Just do noting, later occurences are ignored
+			  }
+			  break;
+			  
 			  
 			default:
 			  this.nonOptions = this.nonOptions + ", " + c;
@@ -210,6 +233,14 @@ public class ArgParser {
     
     public String getInterest() {
 	return this.interest;
+    }
+    
+    public String getMArg() {
+	return this.mArg;
+    }
+    
+    public String getEArg() {
+	return this.eArg;
     }
 
 

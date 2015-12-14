@@ -41,6 +41,8 @@ public class Buchhaltung {
 		boolean help = false;
 		BigDecimal zins = null;
 		boolean isInteractive = false;
+		String eArg = null;
+		String mArg = null;
 		
 		//set log level
 		logger.setLevel(Level.ALL);
@@ -119,6 +121,9 @@ public class Buchhaltung {
 				logger.severe("Datei kann nicht geschrieben werden");
 				e.printStackTrace();
 			}
+			
+			eArg = argP.getEArg();
+			mArg = argP.getMArg();
  			
 		}
 		
@@ -230,9 +235,20 @@ public class Buchhaltung {
 		outwriter.write(header + "");
 		sc.close();
 		
+		try {
+			if (eArg != null) {
+				addTrans(sparer, eArg);
+			}
+			if (mArg != null) {
+				addMember(sparer, mArg);
+			}
+		} catch (ArrayIndexOutOfBoundsException e) {
+			//TODO wrong arg!
+		}
 		if (isInteractive) {
 			interactive(sparer);
 		}
+		
 		writeNewyear(sparer);
 		
 		outwriter.close();
@@ -276,5 +292,30 @@ public class Buchhaltung {
 		System.out.println("3) Jahresabschluss durchfuehren");
 		System.out.println();
 		System.out.println("x) Programm beenden");
+	}
+	
+	private static void addTrans(ArrayList<Sparer> sparer, String argline) {
+		String [] splits = argline.split(";");
+		String id = splits[0];
+		BigDecimal amount = new BigDecimal(splits[1]);
+		int day = Integer.parseInt(splits[2]);
+		for (Sparer sp : sparer) {
+			if (sp.getID().equals(id)) {
+				sp.addTransaction(day, amount);
+				break;
+			}
+		}
+	}
+	
+	private static void addMember(ArrayList<Sparer> sparer, String argline) {
+		String [] splits = argline.split(";");
+		String id = splits[0];
+		String name = splits[1];
+		String firstName = splits[2];
+		BigDecimal amount = new BigDecimal(splits[3]);
+		int day = Integer.parseInt(splits[4]);
+		Sparer sp = new Sparer(id, name, firstName, new BigDecimal("0"));
+		sp.addTransaction(day, amount);
+		sparer.add(sp);
 	}
 }

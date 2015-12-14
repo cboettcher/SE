@@ -12,6 +12,10 @@ public class Sparer {
 	private String first_name;
 	private BigDecimal starting_money;
 	private ArrayList<Transaction> transactions = new ArrayList<Transaction>();
+	
+	public String getID() {
+		return this.id;
+	}
 
 	public static void setZins(BigDecimal newZins) {
 		zins = newZins;
