@@ -90,10 +90,17 @@ ausprobiert und (kennen) gelernt.
     </java>
   </target>
   
-  <target name="execute-params" depends="compile">
+  <target name="execute-params-interactive" depends="compile">
     <java classname="application.accounting.Main">
       <classpath refid="project.class.path" />
       <arg line="-i ./src/data/data1.csv -o ./src/data/data1.csv.new -r 0.05 -l ./src/data/test.csv.log" />
+    </java>
+  </target>
+  
+  <target name="execute-params" depends="compile">
+    <java classname="application.accounting.Main">
+      <classpath refid="project.class.path" />
+      <arg line="-i ./src/data/data1.csv -o ./src/data/data1.csv.new -r 0.05 -l ./src/data/test.csv.log -p" />
     </java>
   </target>
   
