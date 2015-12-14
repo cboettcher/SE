@@ -232,7 +232,10 @@ public class Buchhaltung {
 			}
 		}
 		
-		outwriter.write(header + "");
+		Header h = new Header(header);
+		h = new Header_Timestamp(h);
+		
+		outwriter.write(h.toString());
 		sc.close();
 		
 		try {
